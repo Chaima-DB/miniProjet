@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.cors().and().csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests(auth -> {
-                    auth.antMatchers("/api/users/generate", "/api/users/batch", "/api/users/auth").permitAll();
+                    auth.antMatchers("/api/users/generate", "/api/users/batch", "/api/auth/").permitAll();
                     auth.antMatchers("/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui/**").permitAll();
                     auth.antMatchers("/h2-console/**").permitAll();
                     auth.anyRequest().authenticated();

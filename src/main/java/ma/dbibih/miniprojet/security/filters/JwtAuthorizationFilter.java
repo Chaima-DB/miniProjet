@@ -43,13 +43,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 
     private void initResponseHeader(HttpServletResponse response) {
-        response.addHeader("Access-Controll-Allow-Origin", "*");
-        response.addHeader("Access-Controll-Allow-Headers",
-                "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Reuest-Method, "
-                        + "Access-Control-Reuest-Headers, authorization");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers",
+                "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, "
+                        + "Access-Control-Request-Headers, authorization");
 
-        response.addHeader("Access-Controll-Expose-Headers", "Access-Controll-Allow-Origin, "
-                + "Access-Controll-Allow-Credentials,authorization");
+        response.addHeader("Access-Control-Expose-Headers", "Access-Control-Allow-Origin, "
+                + "Access-Control-Allow-Credentials,authorization");
 
     }
 }

@@ -42,8 +42,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Operation(summary = "Create a new User ! only users with role admin can access it")
     @PostMapping("/")
@@ -138,7 +136,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @Operation(summary = "Get The user information's ! Only users with role admin can access it!  ")
+    @Operation(summary = "Get the user Profile ! Only users with role admin can access it!  ")
     @GetMapping("/{username}")
     @PreAuthorize("hasAuthority('ADMIN')")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -157,23 +155,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Authenticate users")
-    @PostMapping("/auth")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User Authenticated! the Token was generated successfully"),
-            @ApiResponse(responseCode = "403", description = "The given credentials are not correct"),
-            @ApiResponse(responseCode = "500", description = "Internal server error occurred")
-    })
-    public ResponseEntity<JwtResponse> auth(@RequestBody LoginDTO user) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        AppUserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(user.getUsername());
-        String jwt = JwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(jwt));
-    }
-
-    @Operation(summary = "Get the authenticated user information's!")
+    @Operation(summary = "Get the authenticated user Profile!")
     @GetMapping("/me")
     @SecurityRequirement(name = "Bearer Authentication")
     @ApiResponses(value = {

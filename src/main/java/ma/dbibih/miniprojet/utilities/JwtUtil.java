@@ -2,7 +2,6 @@ package ma.dbibih.miniprojet.utilities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.IOException;
 import java.util.Date;
@@ -24,7 +23,7 @@ public class JwtUtil {
     public static final String SECRET_KEY = "KEYPASSWORD";
     public static final String ROLES_LABEL = "roles";
     public static final String HEADER_TOKEN_SUFFIX = "Bearer ";
-    public static final String HTTP_AUTORISATION_HEADER = "Authorization";
+    public static final String HTTP_AUTHORISATION_HEADER = "Authorization";
     public static final String EMPTY_STRING = "";
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10h
 
@@ -32,7 +31,7 @@ public class JwtUtil {
     public static void generateTokenInHttpHeader(AppUserDetails userDetails, HttpServletResponse response) {
         String jwtToken = HEADER_TOKEN_SUFFIX + generateToken(userDetails);
         System.out.println("jwtToken == " + jwtToken);
-        response.addHeader(HTTP_AUTORISATION_HEADER, jwtToken);
+        response.addHeader(HTTP_AUTHORISATION_HEADER, jwtToken);
     }
 
     public static void generateTokenInResponseBody(AppUserDetails userDetails, HttpServletResponse response) throws IOException {
@@ -58,17 +57,13 @@ public class JwtUtil {
         return getAllClaims(token.replace(HEADER_TOKEN_SUFFIX, EMPTY_STRING));
     }
 
-    public static boolean valiateToken(String token, UserDetails userDetails) {
-        return getUserName(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
-    }
-
     public static boolean validateToken(HttpServletRequest request) {
         String token = getToken(request);
         return (token != null && token.startsWith(HEADER_TOKEN_SUFFIX));
     }
 
     public static String getToken(HttpServletRequest request) {
-        return request.getHeader(HTTP_AUTORISATION_HEADER);
+        return request.getHeader(HTTP_AUTHORISATION_HEADER);
     }
 
     public static Date getExpiration(String token) {
